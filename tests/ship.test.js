@@ -13,7 +13,7 @@ describe('Testing ship', () => {
     expect(testShip.hits).toBe(2);
   });
 
-  test('Check hit counter', () => {
+  test('Check sunk status', () => {
     testShip.hit();
     testShip.hit();
     expect(testShip.sunk).toBe(true);
