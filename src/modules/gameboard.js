@@ -64,7 +64,16 @@ export default class Gameboard {
     }
   }
 
-  allSunk() {}
+  allSunk() {
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (typeof this.board[i][j] == 'object') {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 
   resetBoard() {
     this.board = Array(10)
