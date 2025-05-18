@@ -43,7 +43,26 @@ export default class Gameboard {
     return true;
   }
 
-  receiveAttack() {}
+  receiveAttack(x, y) {
+    const target = this.board[x][y];
+    if (target == 'miss' || target == 'hit') {
+      return false;
+    }
+
+    if (target == 0) {
+      this.board[x][y] = 'miss';
+      this.missed.push([x, y]);
+      return true;
+    }
+
+    if (typeof target == 'object') {
+      target.hit();
+      this.board[x][y] = 'hit';
+      return true;
+      // return {hit: true, sunk: false}
+      // return {hit: true, sunk: target.sunk}
+    }
+  }
 
   allSunk() {}
 
