@@ -66,6 +66,14 @@ export default class Gameboard {
 
   allSunk() {}
 
+  resetBoard() {
+    this.board = Array(10)
+      .fill()
+      .map(() => Array(10).fill(0));
+    this.missed = [];
+    this.ships = [];
+  }
+
   checkCollision(ship, direction, x, y) {
     for (let i = 0; i < ship.length; i++) {
       if (direction == 'horizontal') {
