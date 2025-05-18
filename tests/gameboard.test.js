@@ -27,3 +27,17 @@ describe('Test collision function', () => {
     expect(board.checkCollision(ship3, 'vertical', 2, 8)).toBe(true);
   });
 });
+
+describe('Test receiving of attacks', () => {
+  test('Check hit', () => {
+    expect(board.receiveAttack(1, 3)).toBe(true);
+  });
+
+  test('Check miss', () => {
+    expect(board.receiveAttack(5, 5)).toBe(true);
+  });
+
+  test('Check repeat attack', () => {
+    expect(board.receiveAttack(5, 5)).toBe(false);
+  });
+});
