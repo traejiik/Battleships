@@ -94,6 +94,10 @@ footer {
   color: var(--sec-colour);
 }
 
+.footerLink:visited {
+  color: var(--ter-colour);
+}
+
 .footerLink > svg {
   height: 2rem;
 }
