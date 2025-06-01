@@ -7,10 +7,10 @@
 }
 
 :root {
-  --background: #19335a;
-  --main-colour: #064469;
-  --sec-colour: #5790AB;
-  --ter-colour: #D0D7E1;
+  --background: rgb(25, 51, 90);
+  --main-colour: rgb(74, 160, 200);
+  --sec-colour: rgb(6, 68, 105);
+  --ter-colour: rgb(208, 215, 225);
 }
 
 body {
@@ -26,7 +26,24 @@ body {
   flex-direction: column;
   margin: 0 auto;
   width: 90%;
-  color: var(--ter-colour);
+}
+
+/* common styling */
+button {
+  height: 3rem;
+  font-size: 1rem;
+  padding: 0.5rem 2rem;
+  text-transform: capitalize;
+  background-color: var(--main-colour);
+  color: var(--background);
+  transition: 0.3s;
+  border: none;
+}
+
+button:hover {
+  background-color: var(--ter-colour);
+  scale: 1.1;
+  transition: 0.3s;
 }
 
 /* header section */
@@ -34,6 +51,7 @@ header {
   padding: 1rem 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 h1 {
@@ -86,16 +104,20 @@ footer {
   gap: 1rem;
 }
 
-.footerLink {
+.footerLink:link {
   color: var(--ter-colour);
 }
 
 .footerLink:hover {
-  color: var(--sec-colour);
+  color: var(--main-colour);
 }
 
 .footerLink:visited {
   color: var(--ter-colour);
+}
+
+.footerLink:visited:hover {
+  color: var(--main-colour);
 }
 
 .footerLink > svg {
