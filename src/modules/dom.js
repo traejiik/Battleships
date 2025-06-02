@@ -21,7 +21,7 @@ function createGrids() {
       for (let j = 0; j < 10; j++) {
         const index = i * 10 + j;
         const square = document.createElement('div');
-        square.classList.add(`el${index}`);
+        square.classList.add('cell');
         square.dataset.xCoord = i;
         square.dataset.yCoord = j;
 
