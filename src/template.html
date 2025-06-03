@@ -9,13 +9,13 @@
     <div class="container">
       <header>
         <h1>Battleships</h1>
-        <button class="restartGame">start game</button>
+        <button class="restartGame hiddenBtn">restart game</button>
       </header>
       <main class="content">
-        <div class="gameInit hidden">
+        <div class="gameInit">
           <div class="createCtn"></div>
         </div>
-        <div class="gameActive">
+        <div class="gameActive hidden">
           <div class="dispArea">
             <div class="turnDisplay">
               <p><span>Player</span>'s Turn</p>
@@ -25,7 +25,7 @@
           <div class="grids">
             <div class="playerBoard">
               <p class="boardTitle">your board</p>
-              <div id="p1" class="gameboard"></div>
+              <div id="p1" class="gameboard placed"></div>
             </div>
             <div class="compBoard">
               <p class="boardTitle"><span>Opp</span>'s board</p>
