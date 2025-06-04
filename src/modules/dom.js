@@ -1,5 +1,6 @@
 import Player from './player';
 import Ship from './ship';
+import gamePlacement from '../pages/placer';
 
 // ships
 const globalShips = [
@@ -48,8 +49,18 @@ function rotateShip(activeShip) {
   playerShips[activeShip].orientation = 'vertical';
 }
 
+// test
+function testlistener() {
+  const btn = document.querySelector('.gameStart');
+
+  btn.addEventListener('click', () => {
+    gamePlacement();
+    createGrids();
+  });
+}
+
 // create player instances
 
 export default function init() {
-  createGrids();
+  testlistener();
 }
