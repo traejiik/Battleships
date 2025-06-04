@@ -1,3 +1,5 @@
+import { startGame } from "../modules/gamesetupUI";
+
 export default function gamePlacement() {
   const container = document.querySelector('.gameInit');
   container.innerHTML = '';
@@ -105,4 +107,6 @@ export default function gamePlacement() {
   container.appendChild(pageTitle);
   container.appendChild(pageDesc);
   container.appendChild(contCtn);
+
+  startGame()
 }
