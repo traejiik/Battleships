@@ -17,7 +17,7 @@ const globalShips = [
 const player = new Player('user');
 const comp = new Player('comp');
 
-const playerDetails = {};
+let playerDetails = {};
 
 let activeShip = null;
 
