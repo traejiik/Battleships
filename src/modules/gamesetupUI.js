@@ -225,7 +225,7 @@ function resetBtn() {
       shipObj.placed = false;
     });
     selected.forEach((select) => {
-      select.classList.remove('placed selected');
+      select.classList.remove('placed', 'selected');
     });
     cells.forEach((cell) => {
       cell.className = 'cell';
