@@ -7,6 +7,9 @@ export default function gamePlacement() {
 
   const pageTitle = document.createElement('p');
   pageTitle.textContent = 'place your ships';
+  const pageDesc = document.createElement('p');
+  pageDesc.textContent = 'select a ship and place it on the grid';
+  pageDesc.id = 'pageDesc';
 
   // ship placer & name
   const aside = document.createElement('div');
@@ -33,20 +36,27 @@ export default function gamePlacement() {
   btnCtn.classList.add('placerBtnCtn');
 
   const carShip = document.createElement('div');
-  carShip.classList.add('carrier');
   carShip.classList.add('placeShipBtn');
+  carShip.classList.add('altColour');
+  carShip.classList.add('carrier');
+  carShip.textContent = 'carrier';
   const batShip = document.createElement('div');
-  batShip.classList.add('battleship');
   batShip.classList.add('placeShipBtn');
+  batShip.classList.add('battleship');
+  batShip.classList.add('altColour');
+  batShip.textContent = 'battleship';
   const cruShip = document.createElement('div');
-  cruShip.classList.add('cruiser');
   cruShip.classList.add('placeShipBtn');
+  cruShip.classList.add('cruiser');
+  cruShip.textContent = 'cruiser';
   const subShip = document.createElement('div');
-  subShip.classList.add('submarine');
   subShip.classList.add('placeShipBtn');
+  subShip.classList.add('submarine');
+  subShip.textContent = 'submarine';
   const desShip = document.createElement('div');
-  desShip.classList.add('destroyer');
   desShip.classList.add('placeShipBtn');
+  desShip.classList.add('destroyer');
+  desShip.textContent = 'destroyer';
 
   const resetBtn = document.createElement('button');
   resetBtn.classList.add('resetGame');
@@ -93,5 +103,6 @@ export default function gamePlacement() {
   contCtn.appendChild(aside);
   contCtn.appendChild(board);
   container.appendChild(pageTitle);
+  container.appendChild(pageDesc);
   container.appendChild(contCtn);
 }
