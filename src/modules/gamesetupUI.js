@@ -17,6 +17,8 @@ const globalShips = [
 const player = new Player('user');
 const comp = new Player('comp');
 
+const playerDetails = {};
+
 let activeShip = null;
 
 // create ships onto player grids
@@ -162,6 +164,7 @@ function startGame() {
   const resetBtn = document.querySelector('.restartGame');
   const activeGame = document.querySelector('.gameActive');
   const initGame = document.querySelector('.gameInit');
+  const inpt = document.querySelector('.nameInput');
 
   btn.addEventListener('click', () => {
     const unplacedShips = Object.values(playerShips).filter(
@@ -174,8 +177,17 @@ function startGame() {
       alert('Place your ships!');
       return;
     }
+    if (!inpt || inpt.value.length < 2) {
+        alert('Enter your name!')
+        return
+    }
 
     // Game starts
+    playerDetails = {
+        name: inpt.value,
+        player: player,
+        ships: playerShips
+    }
     activeGame.style.display = 'flex';
     activeGame.classList.remove('hidden');
     initGame.classList.add('hidden');
@@ -202,10 +214,30 @@ function rotateBtn() {
   });
 }
 
+function resetBtn() {
+  const btn = document.querySelector('.resetGame');
+  const selected = document.querySelectorAll('.placeShipBtn');
+  const cells = document.querySelectorAll('#initBoard div');
+
+  btn.addEventListener('click', () => {
+    player.playerBoard.resetBoard();
+    Object.values(playerShips).forEach((shipObj) => {
+      shipObj.placed = false;
+    });
+    selected.forEach((select) => {
+      select.classList.remove('placed selected');
+    });
+    cells.forEach((cell) => {
+      cell.className = 'cell';
+    });
+  });
+}
+
 function setupHelper() {
   startGame();
   rotateBtn();
+  resetBtn();
   shipPlacement();
 }
 
-export { newGame, setupHelper };
+export { newGame, resetBtn, playerDetails, comp };
