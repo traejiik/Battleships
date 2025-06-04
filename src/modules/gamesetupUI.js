@@ -1,4 +1,5 @@
 import Ship from './ship';
+import Player from './player';
 import gamePlacement from '../pages/placer';
 import { createGrids } from './dom';
 
@@ -6,12 +7,17 @@ import { createGrids } from './dom';
 const playerShips = {};
 const compShips = {};
 const globalShips = [
-  ['Carrier', 5],
-  ['Battleship', 4],
-  ['Cruiser', 3],
-  ['Submarine', 3],
-  ['Destroyer', 2],
+  ['carrier', 5],
+  ['battleship', 4],
+  ['cruiser', 3],
+  ['submarine', 3],
+  ['destroyer', 2],
 ];
+
+const player = new Player('user');
+const comp = new Player('comp');
+
+let activeShip = null;
 
 // create ships onto player grids
 function createShips() {
@@ -25,13 +31,70 @@ function createShips() {
   });
 }
 
+function renderSelectedShip(ship, orientation, cell, isHovering = true) {
+  const row = Number(cell.dataset.xCoord);
+  const col = Number(cell.dataset.yCoord);
+  const isHorizontal = orientation === 'horizontal';
+
+  for (let i = 0; i < ship.length; i++) {
+    const hoveredRow = isHorizontal ? row : row + i;
+    const hoveredCol = isHorizontal ? col + i : col;
+
+    if (hoveredRow > 9 || hoveredCol > 9) return;
+
+    const hoveredCell = document.querySelector(
+      `[data-x-coord="${hoveredRow}"][data-y-coord="${hoveredCol}"]`,
+    );
+
+    if (!hoveredCell) continue;
+
+    if (isHovering) {
+      const overflows =
+        (isHorizontal && col + ship.length - 1 > 9) ||
+        (!isHorizontal && row + ship.length - 1 > 9);
+
+      hoveredCell.classList.add(overflows ? 'hover-invalid' : 'hover-valid');
+    } else {
+      hoveredCell.classList.remove('hover-valid', 'hover-invalid');
+    }
+  }
+}
+
+// button functions
+function rotateShip(shipName) {
+  if (!shipName || !playerShips[shipName]) return;
+
+  const shipData = playerShips[shipName];
+  shipData.orientation =
+    shipData.orientation === 'horizontal' ? 'vertical' : 'horizontal';
+}
+
+function shipPlacement() {
+  const cells = document.querySelectorAll('#initBoard .cell');
+  cells.forEach((cell) => {
+    cell.addEventListener('mouseenter', () => {
+      if (!activeShip) return;
+      const shipData = playerShips[activeShip];
+      renderSelectedShip(shipData.ship, shipData.orientation, cell, true);
+    });
+
+    cell.addEventListener('mouseleave', () => {
+      if (!activeShip) return;
+      const shipData = playerShips[activeShip];
+      renderSelectedShip(shipData.ship, shipData.orientation, cell, false);
+    });
+  });
+}
+
 // event listener
 function newGame() {
   const btn = document.querySelector('.newGame');
+  createShips();
 
   btn.addEventListener('click', () => {
     gamePlacement();
     createGrids();
+    setupHelper();
   });
 }
 
@@ -42,7 +105,6 @@ function startGame() {
   const initGame = document.querySelector('.gameInit');
 
   btn.addEventListener('click', () => {
-    createShips()
     const unplacedShips = Object.values(playerShips).filter(
       (ship) => !ship.placed,
     );
@@ -63,4 +125,28 @@ function startGame() {
   });
 }
 
-export { newGame, startGame, playerShips };
+function rotateBtn() {
+  const btn = document.querySelector('.rotateGame');
+  const selected = document.querySelectorAll('.placeShipBtn');
+
+  selected.forEach((select) => {
+    select.addEventListener('click', () => {
+      activeShip = select.textContent;
+      console.log(activeShip);
+      console.log(playerShips[activeShip]);
+    });
+  });
+
+  btn.addEventListener('click', () => {
+    rotateShip(activeShip);
+    console.log(playerShips[activeShip]);
+  });
+}
+
+function setupHelper() {
+  startGame();
+  rotateBtn();
+  shipPlacement();
+}
+
+export { newGame, setupHelper, playerShips };

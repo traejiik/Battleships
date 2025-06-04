@@ -233,6 +233,16 @@ h1 {
   scale: 1.025;
 }
 
+#initBoard > .cell.hover-valid {
+  background-color: #808080b3;
+  transition: background-color 0.1s;
+}
+
+#initBoard > .cell.hover-invalid {
+  background-color: #c0392bb3;
+  transition: background-color 0.1s
+}
+
 /* 2.2 - active game area */
 .dispArea {
   width: 100%;

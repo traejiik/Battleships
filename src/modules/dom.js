@@ -15,10 +15,4 @@ function createGrids() {
   });
 }
 
-// rotate ships
-function rotateShip(activeShip) {
-  playerShips[activeShip].orientation = 'vertical';
-}
-
-
 export { createGrids };
