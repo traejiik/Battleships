@@ -98,8 +98,8 @@ function shipPlacement() {
       player.playerBoard.placeShip(
         shipData.ship,
         shipData.orientation,
-        cell.dataset.xCoord,
-        cell.dataset.yCoord,
+        Number(cell.dataset.xCoord),
+        Number(cell.dataset.yCoord),
       );
       shipData.placed = true;
       selected.forEach((select) => {
@@ -127,12 +127,30 @@ function shipPlacement() {
   });
 }
 
+function randomiseCompShips() {
+  Object.entries(compShips).forEach(([name, ship]) => {
+    let placed = false;
+
+    while (!placed) {
+      const orientation = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+      const maxRow = orientation === 'horizontal' ? 9 : 10 - ship.length;
+      const maxCol = orientation === 'horizontal' ? 10 - ship.length : 9;
+
+      const x = Math.floor(Math.random() * (maxRow + 1));
+      const y = Math.floor(Math.random() * (maxCol + 1));
+
+      placed = comp.playerBoard.placeShip(ship, orientation, x, y);
+    }
+  });
+}
+
 // event listener
 function newGame() {
   const btn = document.querySelector('.newGame');
   createShips();
 
   btn.addEventListener('click', () => {
+    randomiseCompShips();
     gamePlacement();
     createGrids();
     setupHelper();
@@ -190,4 +208,4 @@ function setupHelper() {
   shipPlacement();
 }
 
-export { newGame, setupHelper, playerShips };
+export { newGame, setupHelper };
