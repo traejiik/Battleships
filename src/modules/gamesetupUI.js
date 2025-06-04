@@ -146,6 +146,41 @@ function randomiseCompShips() {
   });
 }
 
+function UIupdater() {
+  const restartBtn = document.querySelector('.restartGame');
+  const activeGame = document.querySelector('.gameActive');
+  const initGame = document.querySelector('.gameInit');
+
+  activeGame.style.display = 'flex';
+  activeGame.classList.remove('hidden');
+  initGame.classList.add('hidden');
+  initGame.style.display = 'none';
+  restartBtn.classList.remove('hiddenBtn');
+}
+
+function UIinvert() {
+  const restartBtn = document.querySelector('.restartGame');
+  const activeGame = document.querySelector('.gameActive');
+  const initGame = document.querySelector('.gameInit');
+
+  gamePlacement();
+
+  initGame.classList.remove('hidden');
+  initGame.style.display = 'flex';
+  activeGame.style.display = 'none';
+  activeGame.classList.add('hidden');
+  restartBtn.classList.add('hiddenBtn');
+}
+
+function softReset() {
+  comp.playerBoard.resetBoard();
+  player.playerBoard.resetBoard()
+  randomiseCompShips();
+  UIinvert()
+  createGrids();
+  setupHelper();
+}
+
 // event listener
 function newGame() {
   const btn = document.querySelector('.newGame');
@@ -161,9 +196,6 @@ function newGame() {
 
 function startGame() {
   const btn = document.querySelector('.startGame');
-  const resetBtn = document.querySelector('.restartGame');
-  const activeGame = document.querySelector('.gameActive');
-  const initGame = document.querySelector('.gameInit');
   const inpt = document.querySelector('.nameInput');
 
   btn.addEventListener('click', () => {
@@ -178,21 +210,17 @@ function startGame() {
       return;
     }
     if (!inpt || inpt.value.length < 2) {
-        alert('Enter your name!')
-        return
+      alert('Enter your name!');
+      return;
     }
 
     // Game starts
     playerDetails = {
-        name: inpt.value,
-        player: player,
-        ships: playerShips
-    }
-    activeGame.style.display = 'flex';
-    activeGame.classList.remove('hidden');
-    initGame.classList.add('hidden');
-    initGame.style.display = 'none';
-    resetBtn.classList.remove('hiddenBtn');
+      name: inpt.value,
+      player: player,
+      ships: playerShips,
+    };
+    UIupdater();
   });
 }
 
@@ -240,4 +268,4 @@ function setupHelper() {
   shipPlacement();
 }
 
-export { newGame, resetBtn, playerDetails, comp };
+export { newGame, softReset, playerDetails, comp };
