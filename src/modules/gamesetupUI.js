@@ -83,6 +83,47 @@ function shipPlacement() {
       const shipData = playerShips[activeShip];
       renderSelectedShip(shipData.ship, shipData.orientation, cell, false);
     });
+
+    cell.addEventListener('click', () => {
+      const selected = document.querySelectorAll('.placeShipBtn');
+      const unplacedShips = Object.values(playerShips).filter(
+        (ship) => !ship.placed,
+      );
+      if (!activeShip) return;
+
+      const shipData = playerShips[activeShip];
+      if (shipData.placed) return;
+
+      const isHorizontal = shipData.orientation === 'horizontal';
+      player.playerBoard.placeShip(
+        shipData.ship,
+        shipData.orientation,
+        cell.dataset.xCoord,
+        cell.dataset.yCoord,
+      );
+      shipData.placed = true;
+      selected.forEach((select) => {
+        if (select.textContent == activeShip) {
+          select.classList.add('placed', 'selected');
+        }
+      });
+
+      const row = Number(cell.dataset.xCoord);
+      const col = Number(cell.dataset.yCoord);
+      for (let i = 0; i < shipData.ship.length; i++) {
+        const selectRow = isHorizontal ? row : row + i;
+        const selectCol = isHorizontal ? col + i : col;
+        const selectCell = document.querySelector(
+          `[data-x-coord="${selectRow}"][data-y-coord="${selectCol}"]`,
+        );
+        if (selectCell) {
+          selectCell.classList.add(`${activeShip}`, 'placed', 'hasShip');
+        }
+      }
+      if (unplacedShips == 0) {
+        activeShip = null;
+      }
+    });
   });
 }
 
