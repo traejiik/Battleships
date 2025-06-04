@@ -174,9 +174,9 @@ function UIinvert() {
 
 function softReset() {
   comp.playerBoard.resetBoard();
-  player.playerBoard.resetBoard()
+  player.playerBoard.resetBoard();
   randomiseCompShips();
-  UIinvert()
+  UIinvert();
   createGrids();
   setupHelper();
 }
@@ -197,6 +197,8 @@ function newGame() {
 function startGame() {
   const btn = document.querySelector('.startGame');
   const inpt = document.querySelector('.nameInput');
+  const shipAlrt = document.querySelector('#shipAlert');
+  const nameAlrt = document.querySelector('#nameAlert');
 
   btn.addEventListener('click', () => {
     const unplacedShips = Object.values(playerShips).filter(
@@ -206,11 +208,21 @@ function startGame() {
     console.log('Unplaced ships:', unplacedShips);
 
     if (unplacedShips.length > 0) {
-      alert('Place your ships!');
+      shipAlrt.showModal();
+      document
+        .querySelector('#shipAlert .closer')
+        .addEventListener('click', () => {
+          shipAlrt.close();
+        });
       return;
     }
     if (!inpt || inpt.value.length < 2) {
-      alert('Enter your name!');
+      nameAlrt.showModal();
+      document
+        .querySelector('#nameAlert .closer')
+        .addEventListener('click', () => {
+          nameAlrt.close();
+        });
       return;
     }
 
