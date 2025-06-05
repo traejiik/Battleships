@@ -25,7 +25,7 @@ let activeShip = null;
 function createShips() {
   globalShips.forEach(([name, length]) => {
     playerShips[name] = {
-      ship: new Ship(length),
+      ship: new Ship(name, length),
       placed: false,
       orientation: 'horizontal',
     };
