@@ -1,6 +1,7 @@
 import Ship from './ship';
 import Player from './player';
 import gamePlacement from '../pages/placer';
+import { initUI } from './gameboardUI';
 import { createGrids } from './dom';
 
 // ships
@@ -122,7 +123,7 @@ function shipPlacement() {
           selectCell.classList.add(`${activeShip}`, 'placed', 'hasShip');
         }
       }
-      if (unplacedShips == 0) {
+      if (unplacedShips.length == 0) {
         activeShip = null;
       }
     });
@@ -166,18 +167,23 @@ function UIinvert() {
   gamePlacement();
 
   initGame.classList.remove('hidden');
-  initGame.style.display = 'flex';
+  initGame.style.display = 'block';
   activeGame.style.display = 'none';
   activeGame.classList.add('hidden');
   restartBtn.classList.add('hiddenBtn');
+  activeShip = null;
 }
 
 function softReset() {
+  Object.values(playerShips).forEach((shipObj) => {
+      shipObj.placed = false;
+    });
   comp.playerBoard.resetBoard();
   player.playerBoard.resetBoard();
   randomiseCompShips();
   UIinvert();
   createGrids();
+  createShips()
   setupHelper();
 }
 
@@ -223,6 +229,7 @@ function startGame() {
         .addEventListener('click', () => {
           nameAlrt.close();
         });
+        console.log(playerShips)
       return;
     }
 
@@ -233,6 +240,7 @@ function startGame() {
       ships: playerShips,
     };
     UIupdater();
+    initUI();
   });
 }
 
