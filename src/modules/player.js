@@ -4,7 +4,12 @@ export default class Player {
   constructor(name) {
     this.playerName = name;
     this.playerBoard = new Gameboard();
-    this.wins = 0;
-    this.loses = 0;
+    this.stats = {
+      hitsRec: 0,
+      ownSunk: 0,
+      misses: 0,
+      hits: 0,
+      oppSunk: 0,
+    };
   }
 }
