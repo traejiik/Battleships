@@ -22,6 +22,24 @@ function stateMessage(message) {
   mes.textContent = message;
 }
 
+function renderPlayerBoard() {
+  const playrBoard = document.querySelector('#p1');
+
+  const board = playerDetails.player.playerBoard.board;
+
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (board[i][j]) {
+        const el = board[i][j];
+        const cell = playrBoard.querySelector(
+          `[data-x-coord="${i}"][data-y-coord="${j}"]`,
+        );
+        cell.classList.add('hasShip', `${el.name}`);
+      }
+    }
+  }
+}
+
 function hitMarker(cell) {
   cell.innerHTML = `&#x1F4A5;`;
   cell.classlist.add('hit');
@@ -43,6 +61,7 @@ function restartGame() {
 // UI updater
 function initUI() {
   updateConstName();
+  renderPlayerBoard();
   turnDisplay(playerDetails.name);
   stateMessage('waiting for first move...');
   restartGame();

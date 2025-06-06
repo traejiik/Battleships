@@ -111,7 +111,7 @@ h1 {
 .gameInit {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
-  height: 82vh;
+  height: 84vh;
   padding: 0 0 2.5rem 0;
 }
 
@@ -301,7 +301,8 @@ h1 {
   margin: 1rem 0 3rem;
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 25%;
+  padding: 0 5%;
 }
 
 .turnDisplay {
@@ -328,13 +329,16 @@ h1 {
 .grids {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 8%;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .grids > div {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  align-self: center;
 }
 
 .boardTitle {
