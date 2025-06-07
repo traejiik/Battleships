@@ -2,7 +2,7 @@ import Ship from './ship';
 import Player from './player';
 import gamePlacement from '../pages/placer';
 import { initUI } from './gameboardUI';
-import { createGrids } from './dom';
+import { createGrids, dispAlert } from './generalUI';
 
 // ships
 const playerShips = {};
@@ -176,14 +176,14 @@ function UIinvert() {
 
 function softReset() {
   Object.values(playerShips).forEach((shipObj) => {
-      shipObj.placed = false;
-    });
+    shipObj.placed = false;
+  });
   comp.playerBoard.resetBoard();
   player.playerBoard.resetBoard();
   randomiseCompShips();
   UIinvert();
   createGrids();
-  createShips()
+  createShips();
   setupHelper();
 }
 
@@ -203,33 +203,18 @@ function newGame() {
 function startGame() {
   const btn = document.querySelector('.startGame');
   const inpt = document.querySelector('.nameInput');
-  const shipAlrt = document.querySelector('#shipAlert');
-  const nameAlrt = document.querySelector('#nameAlert');
 
   btn.addEventListener('click', () => {
     const unplacedShips = Object.values(playerShips).filter(
       (ship) => !ship.placed,
     );
 
-    console.log('Unplaced ships:', unplacedShips);
-
     if (unplacedShips.length > 0) {
-      shipAlrt.showModal();
-      document
-        .querySelector('#shipAlert .closer')
-        .addEventListener('click', () => {
-          shipAlrt.close();
-        });
+      dispAlert('Place Your Ships!');
       return;
     }
     if (!inpt || inpt.value.length < 2) {
-      nameAlrt.showModal();
-      document
-        .querySelector('#nameAlert .closer')
-        .addEventListener('click', () => {
-          nameAlrt.close();
-        });
-        console.log(playerShips)
+      dispAlert('Enter Your Name!');
       return;
     }
 
@@ -251,14 +236,11 @@ function rotateBtn() {
   selected.forEach((select) => {
     select.addEventListener('click', () => {
       activeShip = select.textContent;
-      console.log(activeShip);
-      console.log(playerShips[activeShip]);
     });
   });
 
   btn.addEventListener('click', () => {
     rotateShip(activeShip);
-    console.log(playerShips[activeShip]);
   });
 }
 

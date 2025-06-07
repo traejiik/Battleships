@@ -5,6 +5,7 @@ import {
   hitMarker,
   sunkMarker,
 } from './gameboardUI';
+import { dispAlert } from './generalUI';
 
 let playerTurnActive = true;
 const compAttackQueue = [];
@@ -18,9 +19,9 @@ function checkWin() {
   const gameboards = document.querySelector('grids .gameboard');
 
   if (playerS.stats.oppSunk == 5) {
-    // modal 'You win'
+    dispAlert('Well Done! You Win :)')
   } else if (comp.stats.oppSunk == 5) {
-    // modal 'Too bad! Computer wins'
+    dispAlert('Too Bad! Computer Wins :(')
   }
 
   gameboards.classList.add('gameover');
@@ -202,8 +203,6 @@ function handlePlayerClick(event) {
 }
 
 export default function setupPlayerAttackListeners() {
-  console.log(comp);
-
   const cells = document.querySelectorAll('#p2Comp .cell');
   cells.forEach((cell) => {
     cell.removeEventListener('click', handlePlayerClick); // remove if already attached
