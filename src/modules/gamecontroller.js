@@ -148,6 +148,7 @@ function computerTurn() {
         });
       }
     }
+    checkWin()
     setTimeout(computerTurn, 800);
   } else {
     cell.classList.add('miss', 'placed');
@@ -199,6 +200,7 @@ function handlePlayerClick(event) {
         }
       }
     }
+    checkWin()
   }
 }
 
