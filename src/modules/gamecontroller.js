@@ -98,3 +98,12 @@ function handlePlayerClick(event) {
   }
 }
 
+export default function setupPlayerAttackListeners() {
+  console.log(comp);
+
+  const cells = document.querySelectorAll('#p2Comp .cell');
+  cells.forEach((cell) => {
+    cell.removeEventListener('click', handlePlayerClick); // remove if already attached
+    cell.addEventListener('click', handlePlayerClick);
+  });
+}
