@@ -8,6 +8,10 @@ import {
 
 let playerTurnActive = true;
 const compAttackQueue = [];
+let currentTarget = {
+  hits: [],
+  direction: null,
+};
 
 function computerTurn() {
   const board = playerDetails.player.playerBoard.board;
@@ -60,33 +64,68 @@ function computerTurn() {
       }
 
       compAttackQueue.length = 0;
+      currentTarget.hits = [];
+      currentTarget.direction = null;
     } else {
-      const directions = [
-        [x - 1, y],
-        [x + 1, y],
-        [x, y - 1],
-        [x, y + 1],
-      ];
-      directions.forEach(([dx, dy]) => {
-        if (
-          dx >= 0 &&
-          dx < 10 &&
-          dy >= 0 &&
-          dy < 10 &&
-          !document
-            .querySelector(
-              `#p1 .cell[data-x-coord="${dx}"][data-y-coord="${dy}"]`,
-            )
-            .classList.contains('hit') &&
-          !document
-            .querySelector(
-              `#p1 .cell[data-x-coord="${dx}"][data-y-coord="${dy}"]`,
-            )
-            .classList.contains('miss')
-        ) {
-          compAttackQueue.push([dx, dy]);
+      currentTarget.hits.push([x, y]);
+
+      // Determine direction if we have two or more hits
+      if (!currentTarget.direction && currentTarget.hits.length >= 2) {
+        const [[x1, y1], [x2, y2]] = currentTarget.hits.slice(0, 2);
+        if (x1 === x2) {
+          currentTarget.direction = 'horizontal';
+        } else if (y1 === y2) {
+          currentTarget.direction = 'vertical';
         }
-      });
+      }
+
+      // If direction is known, queue only in that direction
+      if (currentTarget.direction) {
+        const [firstHitX, firstHitY] = currentTarget.hits[0];
+        const [lastHitX, lastHitY] = currentTarget.hits[currentTarget.hits.length - 1];
+        let forwardCoord, backwardCoord;
+
+        if (currentTarget.direction === 'horizontal') {
+          forwardCoord = [lastHitX, lastHitY + 1];
+          backwardCoord = [firstHitX, firstHitY - 1];
+        } else {
+          forwardCoord = [lastHitX + 1, lastHitY];
+          backwardCoord = [firstHitX - 1, firstHitY];
+        }
+
+        [forwardCoord, backwardCoord].forEach(([dx, dy]) => {
+          if (
+            dx >= 0 && dx < 10 &&
+            dy >= 0 && dy < 10
+          ) {
+            const cellEl = document.querySelector(`#p1 .cell[data-x-coord="${dx}"][data-y-coord="${dy}"]`);
+            if (cellEl && !cellEl.classList.contains('hit') && !cellEl.classList.contains('miss')) {
+              compAttackQueue.push([dx, dy]);
+            }
+          }
+        });
+      } else {
+        // If direction unknown, try all adjacent
+        const directions = [
+          [x - 1, y],
+          [x + 1, y],
+          [x, y - 1],
+          [x, y + 1],
+        ];
+        directions.forEach(([dx, dy]) => {
+          if (
+            dx >= 0 &&
+            dx < 10 &&
+            dy >= 0 &&
+            dy < 10
+          ) {
+            const cellEl = document.querySelector(`#p1 .cell[data-x-coord="${dx}"][data-y-coord="${dy}"]`);
+            if (cellEl && !cellEl.classList.contains('hit') && !cellEl.classList.contains('miss')) {
+              compAttackQueue.push([dx, dy]);
+            }
+          }
+        });
+      }
     }
     setTimeout(computerTurn, 800);
   } else {
