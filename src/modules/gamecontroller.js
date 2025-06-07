@@ -55,3 +55,46 @@ function computerTurn() {
     stateMessage('Computer Missed. Your Turn!');
   }
 }
+
+function handlePlayerClick(event) {
+  if (!playerTurnActive) return;
+
+  const cell = event.currentTarget;
+  const x = Number(cell.dataset.xCoord);
+  const y = Number(cell.dataset.yCoord);
+
+  const state = comp.playerBoard.receiveAttack(x, y);
+  console.log(state);
+  if (!state.hit) {
+    playerTurnActive = false;
+    console.log(comp)
+    cell.classList.add('miss', 'placed');
+    stateMessage('You Miss. Switching Turns...');
+    setTimeout(computerTurn, 1000);
+    turnDisplay('Computer');
+  } else {
+    hitMarker(cell);
+    stateMessage('You made a Hit. Play Again.');
+    if (state.sunk) {
+      const sunkShip = comp.playerBoard.board[x][y].name;
+      sunkMarker(cell, sunkShip)
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+          if (comp.playerBoard.board[i][j].name == sunkShip) {
+            document
+              .querySelector(
+                `#p2Comp .cell[data-x-coord="${i}"][data-y-coord="${j}"]`,
+              )
+              .classList.add('hasShip', 'sunk', `${sunkShip}`);
+            document
+              .querySelector(`.player2ships .${sunkShip}`)
+              .classList.add('sunk');
+            document.querySelector(`.player2ships .${sunkShip}`).innerHTML =
+              `&#x274C;`;
+          }
+        }
+      }
+    }
+  }
+}
+
