@@ -355,6 +355,10 @@ h1 {
 .cell {
   background-color: var(--ter-colour);
   border-radius: 0.25rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  aspect-ratio: 1 / 1; 
 }
 
 .cell:hover {
@@ -408,7 +412,7 @@ h1 {
   justify-content: center;
   align-items: center;
   font-size: clamp(1rem, 1.5vw, 3rem);
-  filter: brightness(0.5);
+  filter: brightness(0.4);
 }
 
 .statboard {
@@ -445,14 +449,13 @@ h1 {
 }
 
 .hit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: clamp(1rem, 2vw, 3rem);
+  justify-items: center;
+  align-content: center;
+  font-size: clamp(1rem, 1.5vw, 3rem);
 }
 
 .sunk {
-  filter: brightness(0.6);
+  filter: brightness(0.3);
 }
 
 .hasShip {
