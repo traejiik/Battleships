@@ -1,4 +1,5 @@
 import { softReset, playerDetails } from './gamesetupUI';
+import setupPlayerAttackListeners from './gamecontroller';
 
 // content update functions
 function updateConstName() {
@@ -42,11 +43,11 @@ function renderPlayerBoard() {
 
 function hitMarker(cell) {
   cell.innerHTML = `&#x1F4A5;`;
-  cell.classlist.add('hit');
+  cell.classList.add('hit', 'placed');
 }
 
 function sunkMarker(cell, name) {
-  cell.classlist.add('hasShip', 'sunk', name);
+  cell.classList.add('hasShip', 'sunk', name);
 }
 
 // event listener
@@ -65,6 +66,7 @@ function initUI() {
   turnDisplay(playerDetails.name);
   stateMessage('waiting for first move...');
   restartGame();
+  setupPlayerAttackListeners();
 }
 
-export { initUI };
+export { initUI, turnDisplay, stateMessage, hitMarker, sunkMarker };
