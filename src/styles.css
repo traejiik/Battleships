@@ -462,6 +462,11 @@ h1 {
   filter: grayscale(0.9);
 }
 
+.gameover {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 /* 3 - footer section */
 footer {
   display: flex;

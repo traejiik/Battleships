@@ -16,15 +16,21 @@ let currentTarget = {
 
 function checkWin() {
   const playerS = playerDetails.player;
-  const gameboards = document.querySelector('grids .gameboard');
+  const gameboards = document.querySelectorAll('.grids .gameboard');
 
   if (playerS.stats.oppSunk == 5) {
-    dispAlert('Well Done! You Win :)')
+    dispAlert('Well Done! You Win :)');
+    gameboards.forEach((grid) => {
+      grid.classList.add('gameover');
+    });
+    stateMessage('Game Over');
   } else if (comp.stats.oppSunk == 5) {
-    dispAlert('Too Bad! Computer Wins :(')
+    dispAlert('Too Bad! Computer Wins :(');
+    gameboards.forEach((grid) => {
+      grid.classList.add('gameover');
+    });
+    stateMessage('Game Over');
   }
-
-  gameboards.classList.add('gameover');
 }
 
 function computerTurn() {
@@ -148,7 +154,7 @@ function computerTurn() {
         });
       }
     }
-    checkWin()
+    checkWin();
     setTimeout(computerTurn, 800);
   } else {
     cell.classList.add('miss', 'placed');
@@ -200,7 +206,7 @@ function handlePlayerClick(event) {
         }
       }
     }
-    checkWin()
+    checkWin();
   }
 }
 
