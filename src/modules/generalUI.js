@@ -16,4 +16,15 @@ function createGrids() {
   });
 }
 
-export { createGrids };
+function dispAlert(message) {
+  const alrt = document.querySelector('#dispAlert');
+  const mes = document.querySelector('#dispAlert h3');
+
+  mes.textContent = message
+  alrt.showModal();
+  document.querySelector('#dispAlert .closer').addEventListener('click', () => {
+    alrt.close();
+  });
+}
+
+export { createGrids, dispAlert};
