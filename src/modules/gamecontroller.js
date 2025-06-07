@@ -13,6 +13,8 @@ let currentTarget = {
   direction: null,
 };
 
+function checkWin() {}
+
 function computerTurn() {
   const board = playerDetails.player.playerBoard.board;
   let x, y, target, cell;
@@ -40,7 +42,9 @@ function computerTurn() {
 
   if (state.hit) {
     hitMarker(cell);
+    comp.stats.hits += 1;
     if (state.sunk) {
+      comp.stats.oppSunk += 1;
       const sunkShip = playerDetails.player.playerBoard.board[x][y].name;
       sunkMarker(cell, sunkShip);
       for (let i = 0; i < 10; i++) {
@@ -82,7 +86,8 @@ function computerTurn() {
       // If direction is known, queue only in that direction
       if (currentTarget.direction) {
         const [firstHitX, firstHitY] = currentTarget.hits[0];
-        const [lastHitX, lastHitY] = currentTarget.hits[currentTarget.hits.length - 1];
+        const [lastHitX, lastHitY] =
+          currentTarget.hits[currentTarget.hits.length - 1];
         let forwardCoord, backwardCoord;
 
         if (currentTarget.direction === 'horizontal') {
@@ -94,12 +99,15 @@ function computerTurn() {
         }
 
         [forwardCoord, backwardCoord].forEach(([dx, dy]) => {
-          if (
-            dx >= 0 && dx < 10 &&
-            dy >= 0 && dy < 10
-          ) {
-            const cellEl = document.querySelector(`#p1 .cell[data-x-coord="${dx}"][data-y-coord="${dy}"]`);
-            if (cellEl && !cellEl.classList.contains('hit') && !cellEl.classList.contains('miss')) {
+          if (dx >= 0 && dx < 10 && dy >= 0 && dy < 10) {
+            const cellEl = document.querySelector(
+              `#p1 .cell[data-x-coord="${dx}"][data-y-coord="${dy}"]`,
+            );
+            if (
+              cellEl &&
+              !cellEl.classList.contains('hit') &&
+              !cellEl.classList.contains('miss')
+            ) {
               compAttackQueue.push([dx, dy]);
             }
           }
@@ -113,14 +121,15 @@ function computerTurn() {
           [x, y + 1],
         ];
         directions.forEach(([dx, dy]) => {
-          if (
-            dx >= 0 &&
-            dx < 10 &&
-            dy >= 0 &&
-            dy < 10
-          ) {
-            const cellEl = document.querySelector(`#p1 .cell[data-x-coord="${dx}"][data-y-coord="${dy}"]`);
-            if (cellEl && !cellEl.classList.contains('hit') && !cellEl.classList.contains('miss')) {
+          if (dx >= 0 && dx < 10 && dy >= 0 && dy < 10) {
+            const cellEl = document.querySelector(
+              `#p1 .cell[data-x-coord="${dx}"][data-y-coord="${dy}"]`,
+            );
+            if (
+              cellEl &&
+              !cellEl.classList.contains('hit') &&
+              !cellEl.classList.contains('miss')
+            ) {
               compAttackQueue.push([dx, dy]);
             }
           }
@@ -131,6 +140,7 @@ function computerTurn() {
   } else {
     cell.classList.add('miss', 'placed');
     playerTurnActive = true;
+    comp.stats.misses += 1;
     turnDisplay(playerDetails.name);
     stateMessage('Computer Missed. Your Turn!');
   }
@@ -147,15 +157,17 @@ function handlePlayerClick(event) {
   console.log(state);
   if (!state.hit) {
     playerTurnActive = false;
-    console.log(comp);
+    playerDetails.player.stats.misses += 1
     cell.classList.add('miss', 'placed');
     stateMessage('You Miss. Switching Turns...');
     setTimeout(computerTurn, 1000);
     turnDisplay('Computer');
   } else {
     hitMarker(cell);
+    playerDetails.player.stats.hits += 1
     stateMessage('You made a Hit. Play Again.');
     if (state.sunk) {
+    playerDetails.player.stats.oppSunk += 1
       const sunkShip = comp.playerBoard.board[x][y].name;
       sunkMarker(cell, sunkShip);
       for (let i = 0; i < 10; i++) {
