@@ -13,7 +13,18 @@ let currentTarget = {
   direction: null,
 };
 
-function checkWin() {}
+function checkWin() {
+  const playerS = playerDetails.player;
+  const gameboards = document.querySelector('grids .gameboard');
+
+  if (playerS.stats.oppSunk == 5) {
+    // modal 'You win'
+  } else if (comp.stats.oppSunk == 5) {
+    // modal 'Too bad! Computer wins'
+  }
+
+  gameboards.classList.add('gameover');
+}
 
 function computerTurn() {
   const board = playerDetails.player.playerBoard.board;
@@ -157,17 +168,17 @@ function handlePlayerClick(event) {
   console.log(state);
   if (!state.hit) {
     playerTurnActive = false;
-    playerDetails.player.stats.misses += 1
+    playerDetails.player.stats.misses += 1;
     cell.classList.add('miss', 'placed');
     stateMessage('You Miss. Switching Turns...');
     setTimeout(computerTurn, 1000);
     turnDisplay('Computer');
   } else {
     hitMarker(cell);
-    playerDetails.player.stats.hits += 1
+    playerDetails.player.stats.hits += 1;
     stateMessage('You made a Hit. Play Again.');
     if (state.sunk) {
-    playerDetails.player.stats.oppSunk += 1
+      playerDetails.player.stats.oppSunk += 1;
       const sunkShip = comp.playerBoard.board[x][y].name;
       sunkMarker(cell, sunkShip);
       for (let i = 0; i < 10; i++) {
