@@ -4,7 +4,6 @@ export default class Gameboard {
       .fill()
       .map(() => Array(10).fill(0));
     this.ships = [];
-    this.missed = [];
   }
 
   placeShip(ship, direction, x, y) {
@@ -51,16 +50,12 @@ export default class Gameboard {
 
     if (target == 0) {
       this.board[x][y] = 'miss';
-      this.missed.push([x, y]);
-      return true;
+      return { hit: false, sunk: false };
     }
 
     if (typeof target == 'object') {
       target.hit();
-      this.board[x][y] = 'hit';
-      return true;
-      // return {hit: true, sunk: false}
-      // return {hit: true, sunk: target.sunk}
+      return { hit: true, sunk: target.sunk };
     }
   }
 
@@ -68,7 +63,9 @@ export default class Gameboard {
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         if (typeof this.board[i][j] == 'object') {
-          return false;
+          if (!this.board[i][j].sunk) {
+            return false;
+          }
         }
       }
     }
@@ -79,7 +76,6 @@ export default class Gameboard {
     this.board = Array(10)
       .fill()
       .map(() => Array(10).fill(0));
-    this.missed = [];
     this.ships = [];
   }
 
