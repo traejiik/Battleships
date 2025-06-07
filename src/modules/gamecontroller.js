@@ -4,6 +4,7 @@ import {
   turnDisplay,
   hitMarker,
   sunkMarker,
+  updateStats,
 } from './gameboardUI';
 import { dispAlert } from './generalUI';
 
@@ -154,6 +155,7 @@ function computerTurn() {
         });
       }
     }
+    updateStats()
     checkWin();
     setTimeout(computerTurn, 800);
   } else {
@@ -162,6 +164,7 @@ function computerTurn() {
     comp.stats.misses += 1;
     turnDisplay(playerDetails.name);
     stateMessage('Computer Missed. Your Turn!');
+    updateStats()
   }
 }
 
@@ -173,7 +176,6 @@ function handlePlayerClick(event) {
   const y = Number(cell.dataset.yCoord);
 
   const state = comp.playerBoard.receiveAttack(x, y);
-  console.log(state);
   if (!state.hit) {
     playerTurnActive = false;
     playerDetails.player.stats.misses += 1;
@@ -181,6 +183,7 @@ function handlePlayerClick(event) {
     stateMessage('You Miss. Switching Turns...');
     setTimeout(computerTurn, 1000);
     turnDisplay('Computer');
+    updateStats()
   } else {
     hitMarker(cell);
     playerDetails.player.stats.hits += 1;
@@ -206,6 +209,7 @@ function handlePlayerClick(event) {
         }
       }
     }
+    updateStats()
     checkWin();
   }
 }
