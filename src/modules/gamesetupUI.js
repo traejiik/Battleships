@@ -30,7 +30,7 @@ function createShips() {
       placed: false,
       orientation: 'horizontal',
     };
-    compShips[name] = new Ship(length);
+    compShips[name] = new Ship(name, length);
   });
 }
 
