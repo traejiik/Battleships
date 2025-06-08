@@ -1,3 +1,4 @@
-# template-repo
+# Battleships
 
-a template repo for web projects
+A web project, buiding the game Battleship
+Backend work was built using TDD.
