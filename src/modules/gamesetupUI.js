@@ -1,7 +1,7 @@
 import Ship from './ship';
 import Player from './player';
 import gamePlacement from '../pages/placer';
-import { initUI } from './gameboardUI';
+import { initUI, updateStats } from './gameboardUI';
 import { createGrids, dispAlert } from './generalUI';
 
 // ships
@@ -174,14 +174,35 @@ function UIinvert() {
   activeShip = null;
 }
 
-function softReset() {
+function restartGame() {
+  const boards = document.querySelectorAll('.grids .gameboard');
+  const ships = document.querySelectorAll('.shipsRemaining .shipContainer div');
+
+  boards.forEach((board) => {
+    board.classList.remove('gameover');
+  });
+  ships.forEach((ship) => {
+    ship.classList.remove('sunk');
+    ship.textContent = '';
+  });
   Object.values(playerShips).forEach((shipObj) => {
     shipObj.placed = false;
   });
+
+  // reset board
   comp.playerBoard.resetBoard();
   player.playerBoard.resetBoard();
+  // reset stats
+  comp.stats.hits = 0
+  comp.stats.misses = 0
+  comp.stats.oppSunk = 0
+  player.stats.hits = 0
+  player.stats.misses = 0
+  player.stats.oppSunk = 0
+  // other resets
   randomiseCompShips();
   UIinvert();
+  updateStats();
   createGrids();
   createShips();
   setupHelper();
@@ -270,4 +291,4 @@ function setupHelper() {
   shipPlacement();
 }
 
-export { newGame, softReset, playerDetails, comp };
+export { newGame, restartGame, playerDetails, comp };
