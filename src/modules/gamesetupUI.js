@@ -200,11 +200,11 @@ function restartGame() {
   player.stats.misses = 0
   player.stats.oppSunk = 0
   // other resets
+  createShips();
   randomiseCompShips();
   UIinvert();
   updateStats();
   createGrids();
-  createShips();
   setupHelper();
 }
 
