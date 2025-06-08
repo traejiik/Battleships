@@ -1,4 +1,4 @@
-import { softReset, playerDetails, comp } from './gamesetupUI';
+import { restartGame, playerDetails, comp } from './gamesetupUI';
 import setupPlayerAttackListeners from './gamecontroller';
 
 // content update functions
@@ -82,11 +82,11 @@ function sunkMarker(cell, name) {
 }
 
 // event listener
-function restartGame() {
+function restartGameListener() {
   const rstGame = document.querySelector('.restartGame');
 
   rstGame.addEventListener('click', () => {
-    softReset();
+    restartGame();
   });
 }
 
@@ -96,7 +96,7 @@ function initUI() {
   renderPlayerBoard();
   turnDisplay(playerDetails.name);
   stateMessage('waiting for first move...');
-  restartGame();
+  restartGameListener();
   setupPlayerAttackListeners();
 }
 
